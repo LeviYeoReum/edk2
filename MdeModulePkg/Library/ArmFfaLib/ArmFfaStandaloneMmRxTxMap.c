@@ -1,18 +1,17 @@
 /** @file
   Arm Ffa library common code.
 
-  Copyright (c) 2024, Arm Limited. All rights reserved.<BR>
+  Copyright (c) 2024-2025, Arm Limited. All rights reserved.<BR>
   SPDX-License-Identifier: BSD-2-Clause-Patent
 
    @par Glossary:
      - FF-A - Firmware Framework for Arm A-profile
 
    @par Reference(s):
-     - Arm Firmware Framework for Arm A-Profile v1.3 ALP1: [https://developer.arm.com/documentation/den0077/l]
+     - Arm Firmware Framework for Arm A-Profile [https://developer.arm.com/documentation/den0077/latest]
 
 **/
-#include <Uefi.h>
-#include <Pi/PiMultiPhase.h>
+#include <PiMm.h>
 
 #include <Library/ArmLib.h>
 #include <Library/ArmFfaLib.h>
@@ -20,6 +19,7 @@
 #include <Library/BaseMemoryLib.h>
 #include <Library/DebugLib.h>
 #include <Library/MemoryAllocationLib.h>
+#include <Library/DebugLib.h>
 #include <Library/PcdLib.h>
 #include <Library/MmServicesTableLib.h>
 
@@ -228,8 +228,8 @@ ArmFfaLibRxTxMap (
     goto ErrorHandler;
   }
 
-  mArmFfaRxTxBufferStmmInfo->TxBufferAddr = TxBuffer;
-  mArmFfaRxTxBufferStmmInfo->RxBufferAddr = RxBuffer;
+  mArmFfaRxTxBufferStmmInfo->TxBufferAddr = (EFI_PHYSICAL_ADDRESS)TxBuffer;
+  mArmFfaRxTxBufferStmmInfo->RxBufferAddr = (EFI_PHYSICAL_ADDRESS)RxBuffer;
   mArmFfaRxTxBufferStmmInfo->TxBufferSize = BufferSize;
   mArmFfaRxTxBufferStmmInfo->RxBufferSize = BufferSize;
 
@@ -318,4 +318,66 @@ ArmFfaLibRxTxUnmap (
   mArmFfaRxTxBufferStmmInfo = NULL;
 
   return EFI_SUCCESS;
+}
+
+/**
+  Update Rx/TX buffer information.
+
+  @param  BufferInfo            Rx/Tx buffer information.
+
+**/
+VOID
+EFIAPI
+UpdateRxTxBufferInfo (
+  OUT ARM_FFA_RX_TX_BUFFER_INFO  *BufferInfo
+  )
+{
+  /*
+   * StandaloneMm doesn't use Rx/Tx buffer.
+   */
+  return;
+}
+
+/**
+  Find Rx/TX buffer memory allocation hob.
+
+  @param  UseGuid           Find MemoryAllocationHob using Guid.
+
+  @retval MemoryAllocationHob
+  @retval NULL                No memory allocation hob related to Rx/Tx buffer
+
+**/
+EFI_HOB_MEMORY_ALLOCATION *
+EFIAPI
+FindRxTxBufferAllocationHob (
+  IN BOOLEAN  UseGuid
+  )
+{
+  /*
+   * StandaloneMm doesn't use Rx/Tx buffer.
+   */
+  return NULL;
+}
+
+/**
+  Remap Rx/TX buffer with converted Rx/Tx Buffer address after
+  using permanent memory.
+
+  @param[out] BufferInfo    BufferInfo
+
+  @retval EFI_SUCCESS       Success
+  @retval EFI_NOT_FOUND     No memory allocation hob related to Rx/Tx buffer
+
+**/
+EFI_STATUS
+EFIAPI
+RemapFfaRxTxBuffer (
+  OUT ARM_FFA_RX_TX_BUFFER_INFO  *BufferInfo
+  )
+{
+  /*
+   * StandaloneMm doesn't use Rx/Tx buffer.
+   * So, return EFI_UNSUPPORTED.
+   */
+  return EFI_UNSUPPORTED;
 }
