@@ -186,6 +186,8 @@
   #
   RealTimeClockLib|Include/Library/RealTimeClockLib.h
 
+  RuntimeMemoryAllocationLib|Include/Library/RuntimeMemoryAllocationLib.h
+
 [Guids]
   ## MdeModule package token space guid
   # Include/Guid/MdeModulePkgTokenSpace.h
@@ -2302,6 +2304,11 @@
   #  If PcdFfaLibConduitSvc == FALSE, conduit = SVC
   # @Prompt Conduit to use in ArmFfaLib.
   gEfiMdeModulePkgTokenSpaceGuid.PcdFfaLibConduitSmc|TRUE|BOOLEAN|0x10000029
+
+  ## Define page count for scratch buffer used in RuntimeMemoryAllocation.
+  #  Default is 275.
+  # @Prompt Page count for scratch buffer used in RuntimeMemoryAllocation.
+  gEfiMdeModulePkgTokenSpaceGuid.PcdRuntimeMemoryPageCount|275|UINT32|0x10000030
 
 [PcdsPatchableInModule]
   ## Specify memory size with page number for PEI code when
