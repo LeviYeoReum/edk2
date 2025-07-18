@@ -59,6 +59,7 @@
   gEfiFirmwareManagementProtocolGuid            ## PRODUCES
   gEdkiiFirmwareManagementProgressProtocolGuid  ## PRODUCES
   gEdkiiVariablePolicyProtocolGuid              ## CONSUMES
+  gEfiLoadedImageProtocolGuid                   ## CONSUMES
 
 [Pcd]
   gFmpDevicePkgTokenSpaceGuid.PcdFmpDeviceStorageAccessEnable              ## CONSUMES
